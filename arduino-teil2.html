@@ -255,7 +255,7 @@
   <div class="topbar">
     <div class="brand">
       <span style="width:14px;height:14px;border-radius:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-block"></span>
-      <span>Arduino – Lernbaustein (Seiten 1–5)</span>
+      <span>Arduino – Lernbaustein (Seiten 6–11)</span>
       <span class="badge">GitHub Pages • interaktiv</span>
     </div>
     <div class="badge" id="saveState">Lokale Speicherung: aktiv</div>
@@ -290,14 +290,47 @@
     <div>
       <h3>3. Ein Programm zum Programmieren</h3>
 
-      <div class="callout info">
-        <strong>Arduino-IDE</strong>
+
+    <!-- INFOBOX 1 -->
+      <div class="callout tip">
+        <strong>Entwicklungsumgebung (IDE)</strong>
         <div style="color:var(--muted)">
-          Programme für den Arduino werden in der Arduino-Entwicklungsumgebung
-          (IDE) geschrieben und per USB auf den Mikrocontroller übertragen.
+          Programme für Mikrocontroller werden nicht direkt „einfach so“
+          geschrieben, sondern in einer <b>Entwicklungsumgebung</b> (IDE).
+          Sie hilft beim Schreiben, Prüfen und Übertragen der Programme.
         </div>
       </div>
 
+   <!-- INFOBOX 2 -->
+      <div class="callout info">
+        <strong>Arduino-IDE</strong>
+        <div style="color:var(--muted)">
+          Die Arduino-IDE ist speziell für Arduino-Boards entwickelt.
+          Sie unterstützt verschiedene Board-Typen und Betriebssysteme
+          (Windows, macOS, Linux).
+        </div>
+      </div>
+
+      <!-- INFOBOX 3 (grün im Original) -->
+      <div class="callout tip">
+        <strong>Aufbau eines Arduino-Programms</strong>
+        <ul style="margin:6px 0 0; padding-left:18px; color:var(--muted)">
+          <li><b>setup()</b>: wird einmal beim Start ausgeführt</li>
+          <li><b>loop()</b>: wiederholt sich ständig</li>
+        </ul>
+      </div>
+
+      <!-- INFOBOX 4 -->
+      <div class="callout">
+        <strong>Kompilieren & Übertragen</strong>
+        <div style="color:var(--muted)">
+          Bevor ein Programm auf den Arduino geladen wird, prüft die IDE
+          den Code auf Fehler (<i>kompilieren</i>).
+          Danach wird das Programm über USB auf den Arduino übertragen.
+        </div>
+      </div>
+
+      
       <div class="task">
         <div class="tasktitle">
           <div><b>Verständnisfrage</b></div>
@@ -311,12 +344,41 @@
       </div>
     </div>
 
+
+    
     <div class="pdfpage">
       <img src="pdf-bilder/seite06.png" alt="PDF Seite 6">
       <div class="pdfcaption">Original – Seite 6</div>
 </div>
     
+ <!-- KURZE VERSTÄNDNISFRAGE -->
+      <div class="task">
+        <div class="tasktitle">
+          <div><b>Verständnisfrage</b></div>
+          <span class="pill">Text wird gespeichert</span>
+        </div>
+        <textarea id="t_s6_info"
+          placeholder="Warum ist es sinnvoll, dass setup() nur einmal und loop() ständig ausgeführt wird?"></textarea>
+        <div class="btnrow">
+          <button data-copy="t_s6_info">Text kopieren</button>
+        </div>
+      </div>
+    </div>
 
+       <!-- KURZE VERSTÄNDNISFRAGE -->
+      <div class="task">
+        <div class="tasktitle">
+          <div><b>Wiederholung</b></div>
+          <span class="pill">Text wird gespeichert</span>
+        </div>
+        <textarea id="t_s6_info"
+          placeholder="Erkläre alle Punkte auf dem Bild in deinen Worten."></textarea>
+        <div class="btnrow">
+          <button data-copy="t_s6_info">Text kopieren</button>
+        </div>
+      </div>
+  </div>
+      
   </div>
 </section>
 

@@ -808,7 +808,7 @@
           Das macht Programme übersichtlicher und leichter veränderbar.
         </div>
       </div>
-
+ <div class="sep"></div>
       <div class="task">
         <div class="tasktitle">
           <div><b>Denken wie ein Programmierer</b></div>
@@ -821,12 +821,134 @@
         </div>
       </div>
     </div>
+ <div class="sep"></div>
 
+    <!-- INFOBOX 1 -->
+    <div class="callout info">
+      <strong>Was sind Unterprogramme?</strong>
+      <div style="color:var(--muted)">
+        Unterprogramme (auch <b>Funktionen</b> genannt) sind Programmteile,
+        die man auslagert und später immer wieder aufrufen kann.
+        Sie verhindern, dass man denselben Code mehrfach schreiben muss.
+      </div>
+    </div>
+ <div class="sep"></div>
+    <!-- INFOBOX 2 -->
+    <div class="callout tip">
+      <strong>Warum sind Unterprogramme sinnvoll?</strong>
+      <div style="color:var(--muted)">
+        Unterprogramme machen Programme:
+        <ul style="margin:6px 0 0; padding-left:18px">
+          <li>übersichtlicher</li>
+          <li>kürzer</li>
+          <li>leichter veränderbar</li>
+        </ul>
+        Ändert man das Unterprogramm, ändert sich automatisch jeder
+        Aufruf im Hauptprogramm.
+      </div>
+    </div>
+ <div class="sep"></div>
+    <!-- INFOBOX 3 -->
+    <div class="callout">
+      <strong>Beispiel: Refrain in der Musik</strong>
+      <div style="color:var(--muted)">
+        In der Musik wiederholt sich ein <b>Refrain</b> mehrfach.
+        Statt ihn jedes Mal neu zu schreiben, definiert man ihn einmal
+        als Unterprogramm und ruft ihn dann bei Bedarf auf.
+        <br><br>
+        Genau so funktioniert es auch im Arduino-Programm.
+      </div>
+    </div>
+ <div class="sep"></div>
+    <!-- INFOBOX 4 -->
+    <div class="callout info">
+      <strong>Wie wird ein Unterprogramm aufgerufen?</strong>
+      <div style="color:var(--muted)">
+        Ein Unterprogramm wird durch seinen Namen aufgerufen,
+        z. B. <code>refrain();</code>.
+        <br>
+        Der Arduino springt dann zu diesem Unterprogramm,
+        führt es aus und kehrt danach zurück.
+      </div>
+    </div>
+ <div class="sep"></div>
+    <!-- INFOBOX 5 -->
+    <div class="callout warn">
+      <strong>Wichtiger Hinweis</strong>
+      <div style="color:var(--muted)">
+        Unterprogramme müssen <b>außerhalb</b> von <code>loop()</code>
+        und <code>setup()</code> stehen.
+        Sonst erkennt der Compiler sie nicht korrekt.
+      </div>
+    </div>
+  <div class="sep"></div>   
+
+  <div class="callout info">
+        <strong>Lese dir nun den untenstehenden Infokasten durch und bearbeite die Aufgaben</strong>
+        <div style="color:var(--muted)">
+          Halte wieder alle neuen Befehle auf OneNote mit Erklärungen fest.
+        </div>
+  </div>
+
+    
     <div class="pdfpage">
       <img src="pdf-bilder/seite11.png" alt="PDF Seite 11">
       <div class="pdfcaption">Original – Seite 11</div>
     </div>
 
+  <!-- INFOBOX 6 -->
+    <div class="callout info">
+      <strong>Warum braucht man einen Transistor?</strong>
+      <div style="color:var(--muted)">
+        Die Pins des Arduino können nur sehr wenig Strom liefern.
+        Ein <b>Transistor</b> wirkt wie ein elektronischer Schalter:
+        Ein kleines Signal vom Arduino steuert einen größeren Strom,
+        z. B. für einen Lautsprecher oder Motor.
+      </div>
+    </div>
+
+    <!-- INFOBOX 7 -->
+    <div class="callout">
+      <strong>Aufbau eines Transistors</strong>
+      <div style="color:var(--muted)">
+        Ein Transistor besitzt drei Anschlüsse:
+        <ul style="margin:6px 0 0; padding-left:18px">
+          <li><b>Basis (B)</b> – Steuereingang</li>
+          <li><b>Kollektor (C)</b> – Stromzufuhr</li>
+          <li><b>Emitter (E)</b> – Stromabfluss</li>
+        </ul>
+        Der Arduino steuert die Basis – der Transistor schaltet den Rest.
+      </div>
+    </div>
+
+    <!-- VERSTÄNDNISFRAGEN -->
+    <div class="task">
+      <div class="tasktitle">
+        <div><b>Verständnisfragen</b></div>
+        <span class="pill">Text wird gespeichert</span>
+      </div>
+
+      <textarea id="t_s11_q1"
+        placeholder="1) Warum sind Unterprogramme mit einem Refrain in der Musik vergleichbar?"></textarea>
+
+      <textarea id="t_s11_q2"
+        placeholder="2) Welche Vorteile haben Unterprogramme beim Programmieren?"></textarea>
+
+      <textarea id="t_s11_q3"
+        placeholder="3) Warum darf man große Verbraucher (z. B. Lautsprecher) nicht direkt an einen Arduino-Pin anschließen?"></textarea>
+
+      <textarea id="t_s11_q4"
+        placeholder="4) Welche Aufgabe übernimmt der Transistor im Stromkreis?"></textarea>
+
+      <div class="btnrow">
+        <button data-copy="t_s11_q1">Antwort 1 kopieren</button>
+        <button data-copy="t_s11_q2">Antwort 2 kopieren</button>
+        <button data-copy="t_s11_q3">Antwort 3 kopieren</button>
+        <button data-copy="t_s11_q4">Antwort 4 kopieren</button>
+      </div>
+    </div>
+
+    
   </div>
 </section>
 

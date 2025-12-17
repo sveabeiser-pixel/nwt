@@ -647,9 +647,11 @@
 
 </div>
 
-
+ <div class="sep"></div>
 
        <h3>Jetzt darfst du weiter Üben</h3>
+
+       <div class="sep"></div>
 
         <div class="pdfpage">
       <img src="pdf-bilder/seite09.png" alt="PDF Seite 9">
@@ -665,7 +667,7 @@
           auf die du alle 30 Befehle, die du bis jetzt gelernt hast mit Bedeutung aufschreibst.
         </div>
     </div>
-    <div class="sep"></div>
+ 
 
   </div>
 </section>
@@ -677,28 +679,98 @@
   <div class="inner">
 
     <div>
-      <h3>5. Töne erzeugen</h3>
+      <h3>5. Töne erzeugen - Musik verstehen</h3>
 
-      <div class="callout tip">
-        <strong>Prinzip</strong>
-        <div style="color:var(--muted)">
-          Durch schnelles Ein- und Ausschalten eines Pins können Schwingungen
-          erzeugt werden, die man als Ton hört.
-        </div>
-      </div>
 
-      <div class="task">
-        <div class="tasktitle">
-          <div><b>Verständnis</b></div>
-          <span class="pill">Text wird gespeichert</span>
-        </div>
-        <textarea id="t_s10"
-          placeholder="Wovon hängt die Tonhöhe bei einem Lautsprecher ab?"></textarea>
-        <div class="btnrow">
-          <button data-copy="t_s10">Text kopieren</button>
-        </div>
+    <!-- INFOBOX 1 -->
+    <div class="callout info">
+      <strong>Wie entstehen Töne?</strong>
+      <div style="color:var(--muted)">
+        Ein Ton entsteht durch <b>Schwingungen</b>.
+        Je schneller etwas schwingt, desto <b>höher</b> klingt der Ton.
+        Beim Arduino werden diese Schwingungen elektronisch erzeugt,
+        z. B. mit einem Lautsprecher oder Summer.
       </div>
     </div>
+
+    <!-- INFOBOX 2 -->
+    <div class="callout tip">
+      <strong>Tonhöhe und Frequenz</strong>
+      <div style="color:var(--muted)">
+        Die Tonhöhe hängt von der <b>Frequenz</b> ab:
+        <ul style="margin:6px 0 0; padding-left:18px">
+          <li>niedrige Frequenz → tiefer Ton</li>
+          <li>hohe Frequenz → hoher Ton</li>
+        </ul>
+        Beim Arduino wird die Frequenz in <b>Hertz (Hz)</b> angegeben.
+      </div>
+    </div>
+
+    <!-- INFOBOX 3 -->
+    <div class="callout">
+      <strong>Wie liest man Noten auf dem Klavier?</strong>
+      <div style="color:var(--muted)">
+        Auf dem Klavier sind die Tasten in einem festen Muster angeordnet:
+        <br><br>
+        <b>Weiße Tasten</b> stehen für die Grundtöne:
+        C – D – E – F – G – A – H
+        <br><br>
+        <b>Schwarze Tasten</b> liegen dazwischen und gehören immer zu
+        einer weißen Taste links oder rechts davon.
+      </div>
+    </div>
+
+    <!-- INFOBOX 4 -->
+    <div class="callout info">
+      <strong>Orientierung auf der Klaviatur</strong>
+      <div style="color:var(--muted)">
+        Man erkennt das <b>C</b> daran, dass es links von einer
+        <b>Zweiergruppe schwarzer Tasten</b> liegt.
+        Von dort aus zählt man die weißen Tasten nach rechts:
+        C – D – E – F – G – A – H – C …
+      </div>
+    </div>
+
+    <!-- INFOBOX 5 -->
+    <div class="callout tip">
+      <strong>Noten und Arduino</strong>
+      <div style="color:var(--muted)">
+        Jede Klaviernote entspricht einer bestimmten Frequenz.
+        Beispiel:
+        <ul style="margin:6px 0 0; padding-left:18px">
+          <li>C ≈ 262 Hz</li>
+          <li>D ≈ 294 Hz</li>
+          <li>E ≈ 330 Hz</li>
+          <li>G ≈ 392 Hz</li>
+        </ul>
+        Diese Frequenzen kannst du direkt im Arduino-Programm verwenden,
+        um Melodien zu spielen.
+      </div>
+    </div>
+
+    <!-- AUFGABEN -->
+    <div class="task">
+      <div class="tasktitle">
+        <div><b>Verständnisfragen</b></div>
+        <span class="pill">Text wird gespeichert</span>
+      </div>
+
+      <textarea id="t_s10_q1"
+        placeholder="1) Warum klingt ein Ton höher, wenn die Frequenz größer ist?"></textarea>
+
+      <textarea id="t_s10_q2"
+        placeholder="2) Wie findest du auf einem Klavier die Taste C?"></textarea>
+
+      <textarea id="t_s10_q3"
+        placeholder="3) Warum kann man Klaviernoten gut mit dem Arduino nachspielen?"></textarea>
+
+      <div class="btnrow">
+        <button data-copy="t_s10_q1">Antwort 1 kopieren</button>
+        <button data-copy="t_s10_q2">Antwort 2 kopieren</button>
+        <button data-copy="t_s10_q3">Antwort 3 kopieren</button>
+      </div>
+    </div>
+
 
     <div class="pdfpage">
       <img src="pdf-bilder/seite10.png" alt="PDF Seite 10">

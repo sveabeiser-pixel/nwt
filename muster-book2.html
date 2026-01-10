@@ -1,0 +1,864 @@
+from pathlib import Path
+
+html = """<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wellen – Buchvorlage (Template)</title>
+  <style>
+    :root{
+      --blue:#1e66c8;
+      --blue2:#1658b3;
+      --blue3:#0f4a9b;
+      --bg:#f3f5f8;
+      --paper:#ffffff;
+      --line:#e5e7eb;
+      --text:#111827;
+      --muted:#6b7280;
+      --ok:#16a34a;
+      --bad:#dc2626;
+      --shadow: 0 6px 20px rgba(0,0,0,.08);
+      --radius: 12px;
+      --radius2: 10px;
+      --topH: 62px;
+      --sideW: 310px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ===== Topbar ===== */
+    .topbar{
+      position:fixed; left:0; top:0; right:0;
+      height: var(--topH);
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 14px 0 0;
+      z-index: 50;
+    }
+    .top-left{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
+    .hamburger{
+      width: 62px; height: var(--topH);
+      border:none;
+      background: var(--blue);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    .hamburger svg{fill:white}
+    .brand{
+      font-weight: 800;
+      font-size: 22px;
+      color: #1f2937;
+    }
+
+    .top-right{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--blue3);
+      font-weight: 800;
+      user-select:none;
+    }
+    .page-ind{
+      font-size: 18px;
+      min-width: 70px;
+      text-align:center;
+    }
+    .icon-btn{
+      width: 44px; height: 44px;
+      border:none;
+      background: #f5f7fb;
+      border-left: 1px solid var(--line);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    .icon-btn svg{fill: var(--blue3)}
+    .icon-btn:active{transform: translateY(1px)}
+    .icon-btn.round{border-radius: 10px; border: 1px solid var(--line);}
+
+    /* ===== Layout ===== */
+    .layout{
+      display:flex;
+      padding-top: var(--topH);
+      min-height: 100%;
+    }
+
+    /* ===== Sidebar ===== */
+    .sidebar{
+      width: var(--sideW);
+      background: linear-gradient(180deg, var(--blue), var(--blue2));
+      color: white;
+      position: fixed;
+      top: var(--topH);
+      bottom: 0;
+      left: 0;
+      overflow:auto;
+      border-right: 1px solid rgba(0,0,0,.08);
+    }
+    .side-top{
+      padding: 14px 14px 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.18);
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .side-nav{
+      background: #ffffff;
+      color: var(--text);
+      padding: 0;
+      min-height: calc(100% - 58px);
+    }
+    .side-section-title{
+      padding: 12px 14px;
+      background: rgba(30,102,200,.10);
+      border-bottom: 1px solid var(--line);
+      font-weight: 800;
+      color: #0b3f86;
+    }
+
+    details.group{
+      border-bottom: 1px solid var(--line);
+      padding: 6px 0;
+    }
+    details.group summary{
+      list-style: none;
+      cursor:pointer;
+      padding: 10px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight: 800;
+      color: #0b3f86;
+      user-select:none;
+    }
+    details.group summary::-webkit-details-marker{display:none}
+    .chev{
+      width: 20px; height: 20px;
+      display:inline-grid;
+      place-items:center;
+      color:#0b3f86;
+      transition: transform .15s ease;
+    }
+    details[open] .chev{transform: rotate(90deg)}
+
+    .nav-items{
+      padding: 2px 0 10px 0;
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 9px 14px 9px 24px;
+      text-decoration:none;
+      color: #111827;
+      font-size: 14px;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover{background: #f3f6ff}
+    .nav-item.active{
+      background: #eef4ff;
+      border-left-color: var(--blue);
+      font-weight: 800;
+    }
+    .dot{
+      width: 9px; height: 9px; border-radius:999px;
+      border: 2px solid #9ca3af;
+      background: transparent;
+      flex: 0 0 auto;
+    }
+    .nav-item.active .dot{border-color: var(--blue); background: var(--blue);}
+
+    .side-footer{
+      padding: 14px;
+      background: #ffffff;
+      border-top: 1px solid var(--line);
+    }
+    .submit-btn{
+      width: 100%;
+      border: 1px solid #0f766e;
+      background: #ffffff;
+      color:#0f766e;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 12px 10px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+    }
+    .submit-btn:hover{background:#f0fdfa}
+
+    /* ===== Main content ===== */
+    .content{
+      flex:1;
+      margin-left: var(--sideW);
+      padding: 22px 22px 60px 22px;
+    }
+    .paper{
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 34px 42px;
+    }
+
+    h1{margin:0 0 12px 0; font-size: 28px;}
+    h2{margin: 30px 0 10px 0; font-size: 22px;}
+    p{line-height:1.6; font-size: 16px; color:#111827}
+    .muted{color: var(--muted)}
+
+    .img-ph{
+      margin-top: 18px;
+      height: 220px;
+      border: 1px solid var(--line);
+      background: #f3f4f6;
+    }
+
+    /* ===== Blocks (Quiz etc.) ===== */
+    .block{
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: #ffffff;
+    }
+    .block-h{
+      padding: 14px 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 12px;
+    }
+    .block-h b{font-size: 16px}
+    .block-h .hint{font-size: 13px; color: var(--muted); margin-top: 4px}
+    .block-b{padding: 16px}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 12px}
+    .btn{
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor:pointer;
+      font-weight: 800;
+    }
+    .btn.primary{
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #ffffff;
+    }
+    .btn:hover{filter: brightness(.98)}
+    .score{font-weight: 900; color:#0b3f86}
+
+    /* MCQ */
+    .q{
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 12px;
+      background: #ffffff;
+      margin-bottom: 12px;
+    }
+    .q.correct{border-color: rgba(22,163,74,.45); background: rgba(22,163,74,.05)}
+    .q.wrong{border-color: rgba(220,38,38,.45); background: rgba(220,38,38,.05)}
+    .q h3{margin:0 0 10px 0; font-size: 15px}
+    label.choice{
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor:pointer;
+    }
+    label.choice:hover{background:#f3f6ff}
+    .feedback{font-size: 13px; color: var(--muted); margin-top: 8px}
+
+    /* Cloze drag */
+    .bank{
+      display:flex; flex-wrap:wrap; gap: 8px;
+      padding: 10px;
+      border: 1px dashed #c7d2fe;
+      border-radius: 10px;
+      background: #eef2ff;
+      min-height: 50px;
+    }
+    .chip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid #c7d2fe;
+      cursor: grab;
+      font-weight: 800;
+      font-size: 13px;
+      user-select:none;
+    }
+    .text{
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      line-height: 1.8;
+      background: #ffffff;
+      font-size: 16px;
+    }
+    .gap{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 120px;
+      padding: 3px 10px;
+      margin: 0 4px;
+      border-radius: 8px;
+      border: 1px dashed #9ca3af;
+      background: #f9fafb;
+      vertical-align: baseline;
+    }
+    .gap.filled{border-style: solid; background:#eef2ff; border-color:#c7d2fe}
+    .gap.ok{border-color: rgba(22,163,74,.7); box-shadow: 0 0 0 3px rgba(22,163,74,.12)}
+    .gap.bad{border-color: rgba(220,38,38,.7); box-shadow: 0 0 0 3px rgba(220,38,38,.10)}
+    .drop-hint{font-size: 13px; color: var(--muted); margin-top: 8px}
+
+    /* Essay */
+    textarea, input[type="text"]{
+      width:100%;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      font-size: 15px;
+      outline:none;
+      background: #ffffff;
+    }
+    textarea{min-height: 120px; resize:vertical}
+
+    /* ===== Responsive sidebar ===== */
+    .sidebar.overlay{
+      transform: translateX(-100%);
+      transition: transform .2s ease;
+    }
+    body.nav-open .sidebar.overlay{transform: translateX(0)}
+    body.nav-open .backdrop{display:block}
+
+    .backdrop{
+      display:none;
+      position: fixed;
+      top: var(--topH);
+      left:0; right:0; bottom:0;
+      background: rgba(0,0,0,.25);
+      z-index: 45;
+    }
+
+    @media (max-width: 980px){
+      .content{margin-left: 0}
+      .sidebar{
+        width: min(86vw, var(--sideW));
+        z-index: 60;
+      }
+      .sidebar{position: fixed}
+      .sidebar{transform: translateX(-100%); transition: transform .2s ease;}
+      body.nav-open .sidebar{transform: translateX(0)}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar" role="banner">
+    <div class="top-left">
+      <button class="hamburger" id="menuBtn" type="button" aria-label="Menü">
+        <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"></path>
+        </svg>
+      </button>
+      <div class="brand">Wellen</div>
+    </div>
+
+    <div class="top-right">
+      <div class="page-ind"><span id="pageNow">1</span> / <span id="pageMax">2</span></div>
+      <button class="icon-btn round" id="prevBtn" type="button" aria-label="Zurück">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+      </button>
+      <button class="icon-btn round" id="nextBtn" type="button" aria-label="Weiter">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="m8.6 16.6 1.4 1.4 6-6-6-6-1.4 1.4L13.2 12z"/></svg>
+      </button>
+      <button class="icon-btn round" id="fsBtn" type="button" aria-label="Vollbild">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H5v5zm10 9h-3v2h5v-5h-2v3zm0-14V7h-3v2h5V5h-2z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation">
+      <div class="side-top">Wellen</div>
+
+      <div class="side-nav">
+        <div class="side-section-title">Wellen</div>
+
+        <details class="group" open>
+          <summary>
+            <span>Wellen</span>
+            <span class="chev">›</span>
+          </summary>
+
+          <div class="nav-items">
+            <a class="nav-item active" href="#p1">
+              <span class="dot"></span>
+              <span>Herzlich Willkommen!</span>
+            </a>
+            <a class="nav-item" href="#p2">
+              <span class="dot"></span>
+              <span>Voraussetzungen für die Entstehung ...</span>
+            </a>
+            <a class="nav-item" href="#mcq">
+              <span class="dot"></span>
+              <span>Untitled Multiple Choice</span>
+            </a>
+            <a class="nav-item" href="#cloze">
+              <span class="dot"></span>
+              <span>Untitled Drag the Words</span>
+            </a>
+            <a class="nav-item" href="#essay">
+              <span class="dot"></span>
+              <span>Untitled Essay</span>
+            </a>
+          </div>
+        </details>
+
+        <div class="side-footer">
+          <button class="submit-btn" type="button" id="summaryBtn">
+            <span style="font-weight:900">Summary &amp; submit</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="content" role="main">
+      <article class="paper">
+        <!-- Page 1 -->
+        <section class="page" id="p1" data-page="1">
+          <h1>Herzlich Willkommen!</h1>
+          <p class="muted">
+            In dieser Lerneinheit erforschen wir verschiedene Arten von Wellen.
+            Du wirst Fragen beantworten, interaktive Simulationen nutzen und dein Verständnis aktiv überprüfen.
+            Lese den Text und folge den Schritten, um deine Kenntnisse zu vertiefen.
+          </p>
+
+          <h2>Voraussetzungen für die Entstehung von Wellen</h2>
+          <p>
+            (Platzhaltertext) Die Ausbreitung mechanischer Wellen erfordert einen Träger mit schwingungsfähigen Teilchen.
+            Elektromagnetische Wellen können sich auch im Vakuum ausbreiten.
+            Für mechanische Wellen ist eine Kopplung zwischen Teilchen nötig.
+          </p>
+
+          <div class="img-ph" aria-label="Bildplatzhalter"></div>
+        </section>
+
+        <!-- Page 2 -->
+        <section class="page" id="p2" data-page="2" style="display:none">
+          <h1>Interaktive Aufgaben</h1>
+          <p class="muted">Hier folgen Bausteine, die du beliebig kopieren und mit Inhalten füllen kannst.</p>
+
+          <!-- Multiple Choice Block -->
+          <div class="block" id="mcq">
+            <div class="block-h">
+              <div>
+                <b>Multiple Choice</b>
+                <div class="hint">Konfiguration über JSON im HTML (unten im Codebereich dieses Blocks).</div>
+              </div>
+            </div>
+            <div class="block-b">
+              <script type="application/json" class="mcq-config">
+              {
+                "questions": [
+                  {
+                    "text": "Welche Aussage ist richtig?",
+                    "multiple": false,
+                    "choices": [
+                      {"id":"a","label":"Wellen transportieren dauerhaft Materie."},
+                      {"id":"b","label":"Wellen transportieren Energie."},
+                      {"id":"c","label":"Wellen treten nur in Flüssigkeiten auf."}
+                    ],
+                    "correct": ["b"],
+                    "explain": "Wellen transportieren Energie/Information; Teilchen schwingen meist um eine Ruhelage."
+                  },
+                  {
+                    "text": "Kreuze alle richtigen Antworten an:",
+                    "multiple": true,
+                    "choices": [
+                      {"id":"a","label":"Amplitude = maximale Auslenkung."},
+                      {"id":"b","label":"Frequenz = Schwingungen pro Sekunde."},
+                      {"id":"c","label":"f und T sind unabhängig."}
+                    ],
+                    "correct": ["a","b"],
+                    "explain": "Es gilt f = 1/T."
+                  }
+                ]
+              }
+              </script>
+
+              <div data-mcq></div>
+
+              <div class="row">
+                <button class="btn primary" type="button" data-mcq-check>Überprüfen</button>
+                <button class="btn" type="button" data-mcq-reset>Zurücksetzen</button>
+                <div class="score" data-mcq-score aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cloze Block -->
+          <div class="block" id="cloze">
+            <div class="block-h">
+              <div>
+                <b>Lückentext (Drag & Drop)</b>
+                <div class="hint">Wörter ziehen oder Tippen: Klick auf Wort im Text legt es zurück in die Wortbank.</div>
+              </div>
+            </div>
+            <div class="block-b" data-cloze>
+              <div class="bank" data-bank aria-label="Wortbank">
+                <div class="chip" draggable="true" data-token="Energie">Energie</div>
+                <div class="chip" draggable="true" data-token="Amplitude">Amplitude</div>
+                <div class="chip" draggable="true" data-token="Frequenz">Frequenz</div>
+                <div class="chip" draggable="true" data-token="Periode">Periode</div>
+              </div>
+
+              <div class="text" aria-label="Lückentext">
+                Eine Welle transportiert <span class="gap" data-answer="Energie" aria-label="Lücke 1"></span>.
+                Die <span class="gap" data-answer="Amplitude" aria-label="Lücke 2"></span> ist die maximale Auslenkung.
+                Die <span class="gap" data-answer="Frequenz" aria-label="Lücke 3"></span> gibt Schwingungen pro Sekunde an.
+                Die <span class="gap" data-answer="Periode" aria-label="Lücke 4"></span> ist die Dauer einer Schwingung.
+                <div class="drop-hint">Hinweis: Ziehe Wörter in die Lücken. Klick auf eingesetztes Wort = zurück in die Wortbank.</div>
+              </div>
+
+              <div class="row">
+                <button class="btn primary" type="button" data-cloze-check>Überprüfen</button>
+                <button class="btn" type="button" data-cloze-reset>Zurücksetzen</button>
+                <div class="score" data-cloze-score aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Essay / Autosave -->
+          <div class="block" id="essay">
+            <div class="block-h">
+              <div>
+                <b>Essay / Freitext (Autosave)</b>
+                <div class="hint">Speichert automatisch im Browser (LocalStorage) und kann als .txt exportiert werden.</div>
+              </div>
+            </div>
+            <div class="block-b">
+              <label style="font-weight:800">Name</label>
+              <input type="text" data-autosave="wellen_name" placeholder="Vorname Nachname" />
+
+              <div style="height:12px"></div>
+
+              <label style="font-weight:800">Antwort</label>
+              <textarea data-autosave="wellen_essay1" placeholder="Schreibe hier..."></textarea>
+
+              <div class="row">
+                <button class="btn" type="button" data-export>Als .txt exportieren</button>
+                <button class="btn" type="button" data-clear-saved>Gespeichertes löschen</button>
+                <div class="score" data-save-status aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    // ===== Utilities =====
+    const qs  = (sel, el=document) => el.querySelector(sel);
+    const qsa = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    // ===== Nav: active marker =====
+    function setActiveNav(hash){
+      qsa('.nav-item').forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+    }
+    window.addEventListener('hashchange', () => setActiveNav(location.hash));
+
+    // ===== Sidebar toggle (mobile) =====
+    const menuBtn = qs('#menuBtn');
+    const backdrop = qs('#backdrop');
+    const sidebar = qs('#sidebar');
+
+    function closeNav(){ document.body.classList.remove('nav-open'); }
+    function toggleNav(){ document.body.classList.toggle('nav-open'); }
+
+    menuBtn.addEventListener('click', toggleNav);
+    backdrop.addEventListener('click', closeNav);
+    qsa('.nav-item').forEach(a => a.addEventListener('click', () => {
+      setActiveNav(a.getAttribute('href'));
+      closeNav();
+    }));
+
+    // ===== Simple "paging" like in screenshot (1/2, arrows) =====
+    const pages = qsa('.page');
+    const pageNowEl = qs('#pageNow');
+    const pageMaxEl = qs('#pageMax');
+    const prevBtn = qs('#prevBtn');
+    const nextBtn = qs('#nextBtn');
+    pageMaxEl.textContent = String(pages.length);
+
+    function showPage(n){
+      const idx = Math.max(1, Math.min(pages.length, n));
+      pages.forEach(p => p.style.display = (Number(p.dataset.page) === idx) ? '' : 'none');
+      pageNowEl.textContent = String(idx);
+
+      prevBtn.disabled = idx <= 1;
+      nextBtn.disabled = idx >= pages.length;
+
+      // update hash to first section of that page
+      if(idx === 1) location.hash = '#p1';
+      if(idx === 2) location.hash = '#p2';
+      setActiveNav(location.hash);
+      window.scrollTo({top: 0, behavior: 'instant'});
+    }
+
+    prevBtn.addEventListener('click', () => showPage(Number(pageNowEl.textContent) - 1));
+    nextBtn.addEventListener('click', () => showPage(Number(pageNowEl.textContent) + 1));
+
+    // ===== Fullscreen =====
+    qs('#fsBtn').addEventListener('click', async () => {
+      try{
+        if(!document.fullscreenElement){
+          await document.documentElement.requestFullscreen();
+        }else{
+          await document.exitFullscreen();
+        }
+      }catch(e){}
+    });
+
+    // ===== Multiple Choice renderer =====
+    function renderMCQ(root){
+      const cfgEl = qs('.mcq-config', root);
+      const cfg = JSON.parse(cfgEl.textContent);
+
+      const container = qs('[data-mcq]', root);
+      container.innerHTML = '';
+
+      cfg.questions.forEach((q, qi) => {
+        const qEl = document.createElement('div');
+        qEl.className = 'q';
+        qEl.dataset.qi = String(qi);
+
+        const h = document.createElement('h3');
+        h.textContent = `${qi+1}. ${q.text}`;
+        qEl.appendChild(h);
+
+        const type = q.multiple ? 'checkbox' : 'radio';
+        const name = `q_${qi}`;
+
+        q.choices.forEach(c => {
+          const label = document.createElement('label');
+          label.className = 'choice';
+
+          const inp = document.createElement('input');
+          inp.type = type;
+          inp.name = name;
+          inp.value = c.id;
+
+          const span = document.createElement('span');
+          span.textContent = c.label;
+
+          label.appendChild(inp);
+          label.appendChild(span);
+          qEl.appendChild(label);
+        });
+
+        const fb = document.createElement('div');
+        fb.className = 'feedback';
+        fb.dataset.feedback = '1';
+        qEl.appendChild(fb);
+
+        container.appendChild(qEl);
+      });
+
+      const checkBtn = qs('[data-mcq-check]', root);
+      const resetBtn = qs('[data-mcq-reset]', root);
+      const scoreEl  = qs('[data-mcq-score]', root);
+
+      function check(){
+        let correctCount = 0;
+        qsa('.q', container).forEach(qEl => {
+          qEl.classList.remove('correct','wrong');
+          const qi = Number(qEl.dataset.qi);
+          const q = cfg.questions[qi];
+
+          const selected = qsa('input', qEl).filter(i => i.checked).map(i => i.value).sort();
+          const expected = [...q.correct].sort();
+
+          const ok = selected.length === expected.length && selected.every((v,i) => v === expected[i]);
+          qEl.classList.add(ok ? 'correct' : 'wrong');
+          qs('[data-feedback]', qEl).textContent = q.explain || (ok ? 'Richtig.' : 'Nicht ganz.');
+          if(ok) correctCount += 1;
+        });
+        scoreEl.textContent = `Punkte: ${correctCount}/${cfg.questions.length}`;
+      }
+
+      function reset(){
+        qsa('input', container).forEach(i => i.checked = false);
+        qsa('.q', container).forEach(qEl => {
+          qEl.classList.remove('correct','wrong');
+          qs('[data-feedback]', qEl).textContent = '';
+        });
+        scoreEl.textContent = '';
+      }
+
+      checkBtn.addEventListener('click', check);
+      resetBtn.addEventListener('click', reset);
+      return {reset};
+    }
+
+    // ===== Drag & Drop Cloze =====
+    function initCloze(root){
+      const bank = qs('[data-bank]', root);
+      const gaps = qsa('.gap', root);
+      const checkBtn = qs('[data-cloze-check]', root);
+      const resetBtn = qs('[data-cloze-reset]', root);
+      const scoreEl  = qs('[data-cloze-score]', root);
+
+      function attachChipDnD(chip){
+        chip.addEventListener('dragstart', () => { window.__dragChip = chip; });
+        chip.addEventListener('dragend',   () => { window.__dragChip = null; });
+        chip.addEventListener('click',     () => bank.appendChild(chip));
+      }
+      qsa('.chip', bank).forEach(attachChipDnD);
+
+      function allowDrop(el){
+        el.addEventListener('dragover', (e) => { e.preventDefault(); });
+        el.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const chip = window.__dragChip;
+          if(!chip) return;
+
+          const existing = qs('.chip', el);
+          if(existing) bank.appendChild(existing);
+
+          el.innerHTML = '';
+          el.appendChild(chip);
+          el.classList.add('filled');
+          el.classList.remove('ok','bad');
+        });
+      }
+      gaps.forEach(allowDrop);
+      allowDrop(bank);
+
+      // show blanks
+      gaps.forEach(g => g.innerHTML = '&nbsp;');
+
+      function check(){
+        let okCount = 0;
+        gaps.forEach(g => {
+          g.classList.remove('ok','bad');
+          const expected = (g.dataset.answer || '').trim();
+          const chip = qs('.chip', g);
+          const got = chip ? (chip.dataset.token || '').trim() : '';
+          const ok = got !== '' && got === expected;
+          g.classList.add(ok ? 'ok' : 'bad');
+          if(ok) okCount += 1;
+        });
+        scoreEl.textContent = `Punkte: ${okCount}/${gaps.length}`;
+      }
+
+      function reset(){
+        gaps.forEach(g => {
+          const chip = qs('.chip', g);
+          if(chip) bank.appendChild(chip);
+          g.classList.remove('filled','ok','bad');
+          g.innerHTML = '&nbsp;';
+        });
+        scoreEl.textContent = '';
+      }
+
+      checkBtn.addEventListener('click', check);
+      resetBtn.addEventListener('click', reset);
+      return {reset};
+    }
+
+    // ===== Autosave (LocalStorage) =====
+    function initAutosave(){
+      const els = qsa('[data-autosave]');
+      const status = qs('[data-save-status]');
+      const setStatus = (t) => { if(status) status.textContent = t; };
+
+      els.forEach(el => {
+        const key = el.dataset.autosave;
+        const saved = localStorage.getItem(key);
+        if(saved !== null) el.value = saved;
+
+        el.addEventListener('input', () => {
+          localStorage.setItem(key, el.value);
+          setStatus('Gespeichert.');
+          clearTimeout(window.__saveTimer);
+          window.__saveTimer = setTimeout(() => setStatus(''), 900);
+        });
+      });
+
+      qs('[data-export]').addEventListener('click', () => {
+        const lines = [];
+        els.forEach(el => {
+          const label = el.previousElementSibling?.textContent || el.dataset.autosave;
+          lines.push(`## ${label}\\n${el.value}\\n`);
+        });
+        const blob = new Blob([lines.join('\\n')], {type:'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'wellen-ergebnisse.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      qs('[data-clear-saved]').addEventListener('click', () => {
+        els.forEach(el => { localStorage.removeItem(el.dataset.autosave); el.value = ''; });
+        setStatus('Gespeichertes gelöscht.');
+        setTimeout(() => setStatus(''), 1200);
+      });
+    }
+
+    // Summary button (demo)
+    qs('#summaryBtn').addEventListener('click', () => {
+      alert('Demo: Hier könntest du eine Zusammenfassung/Abgabe-Funktion einbauen.');
+    });
+
+    // init interactive blocks
+    const mcqState = renderMCQ(qs('#mcq'));
+    const clozeState = initCloze(qs('#cloze'));
+    initAutosave();
+
+    // start page
+    showPage(1);
+    if(!location.hash) location.hash = '#p1';
+    setActiveNav(location.hash);
+  </script>
+</body>
+</html>
+
